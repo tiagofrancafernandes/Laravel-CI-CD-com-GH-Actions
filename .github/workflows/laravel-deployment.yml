@@ -60,7 +60,9 @@ jobs:
         run: echo "Runner IP address is ${{ runner.ip }}"
 
       - name: Account info
-        run: DO_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} bash ./doctl.sh account get
+        env:
+          DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        run: bash ./ci-cd/tools/do-ctl/doctl.sh account get
 
       # - name: Deploy application via SSH
       #   uses: appleboy/ssh-action@master

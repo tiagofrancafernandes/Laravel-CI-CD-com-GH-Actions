@@ -22,11 +22,15 @@ DOCTL_VERSION=${DOCTL_VERSION:-1.94.0}
 ## export DO_ACCESS_TOKEN=dop_v1_mytokenhere
 ##
 ## Or put on runtime example:
-## DO_ACCESS_TOKEN=dop_v1_mytokenhere bash ./doctl.sh account get
+## DO_ACCESS_TOKEN=dop_v1_mytokenhere bash${SCRIPT_DIR}/doctl.sh account get
 #############################################################################################
 
-if [ ! -f ./doctl ]; then
-    wget -c "https://github.com/digitalocean/doctl/releases/download/v${DOCTL_VERSION}/doctl-${DOCTL_VERSION}-linux-amd64.tar.gz" -O "doctl-${DOCTL_VERSION}-linux-amd64.tar.gz" > /dev/null 2>&1;
+SCRIPT_DIR=$(dirname $(readlink -f "$0"));
+
+cd "${SCRIPT_DIR}"
+
+if [ ! -f ${SCRIPT_DIR}/doctl ]; then
+    wget -c "https://github.com/digitalocean/doctl/releases/download/v${DOCTL_VERSION}/doctl-${DOCTL_VERSION}-linux-amd64.tar.gz" -O "${SCRIPT_DIR}/doctl-${DOCTL_VERSION}-linux-amd64.tar.gz" > /dev/null 2>&1;
 
     if [ $? -ne 0 ]; then
         echo -e ""
@@ -34,7 +38,7 @@ if [ ! -f ./doctl ]; then
         echo -e ""
     fi
 
-    tar xf "doctl-${DOCTL_VERSION}-linux-amd64.tar.gz"> /dev/null 2>&1;
+    tar xf "${SCRIPT_DIR}/doctl-${DOCTL_VERSION}-linux-amd64.tar.gz"> /dev/null 2>&1;
 
     if [ $? -ne 0 ]; then
         echo -e ""
@@ -48,9 +52,11 @@ if [ -z ${DO_ACCESS_TOKEN} ]; then
     exit 100;
 fi
 
-if [ -f ./doctl ]; then
-    ./doctl --access-token ${DO_ACCESS_TOKEN} ${@}
+if [ -f "${SCRIPT_DIR}/doctl" ]; then
+    chmod +x ${SCRIPT_DIR}/doctl
+
+    ${SCRIPT_DIR}/doctl --access-token ${DO_ACCESS_TOKEN} ${@}
 else
-    echo -e "'./doctl' not found!"
+    echo -e "'doctl' not found!"
     exit 120;
 fi
