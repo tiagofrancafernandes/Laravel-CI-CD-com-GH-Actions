@@ -95,13 +95,19 @@ jobs:
             git checkout .
             export TEMP_BRANCH_MD5=$(echo "${TEMP_BRANCH}"|md5sum|head -n 1|awk '{print $1}')
             echo ${TEMP_BRANCH_MD5}
+            git branch -D ${TEMP_BRANCH_MD5} > /dev/null 2>&1 || echo "fail"
             git checkout -b ${TEMP_BRANCH_MD5}
-            git branch -D ${BRANCH_NAME} > /dev/null 2>&1;
+            git branch -D ${BRANCH_NAME} > /dev/null 2>&1 || echo "fail"
             git fetch origin
             git checkout ${BRANCH_NAME} -f
-            bash "${PROJECT_PATH_ON_SERVER}/ci-cd/scripts/sail-noit-run.sh" php -v
-            git branch -D ${TEMP_BRANCH_MD5}
+            git branch -D ${TEMP_BRANCH_MD5} > /dev/null 2>&1 || echo "fail"
             echo ${TEMP_BRANCH_MD5}
+            echo -e ""
+            bash "${PROJECT_PATH_ON_SERVER}/ci-cd/scripts/sail-noit-run.sh" composer install --ignore-platform-reqs
+            echo -e ""
+            echo -e ""
+            ls -lah ./vendor/
+            echo -e ""
 
       - name: Remove runner IP on droplet firewall rules
         env:
