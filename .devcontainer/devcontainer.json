@@ -1,0 +1,95 @@
+{
+    "name": "Alpine Devcontainer F2 - beta-01",
+    // "runArgs": [
+    //     "VARIANT=mainline-alpine-slim",
+    //     "ALPINE_PASSWD=123"
+    // ],
+
+    // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+    "build": {
+        "dockerfile": "Dockerfile",
+
+        // [Optional] You can use build args to set options. e.g. 'VARIANT' below affects the image in the Dockerfile
+        "args": {
+            "VARIANT":"mainline-alpine-slim",
+            "ALPINE_PASSWD":"123"
+        }
+    },
+
+    // Set *default* container specific settings.json values on container create.
+    "settings": {},
+
+    // Add the IDs of extensions you want installed when the container is created.
+    // "extensions": [
+    //     "pranayagarwal.vscode-hack"
+    // ],
+
+    // Update the 'dockerComposeFile' list if you have more compose files or use different names.
+    // "dockerComposeFile": "docker-compose.yml",
+
+    // The 'service' property is the name of the service for the container that VS Code should
+    // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+    // "service": "app",
+
+    // The 'workspaceFolder' property is the path VS Code should open by default when
+    // connected. Corresponds to a volume mount in .devcontainer/docker-compose.yml
+    // "workspaceFolder": "/workspace",
+
+    // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+    // "shutdownAction": "none",
+
+    // Use 'postCreateCommand' to run commands after the container is created.
+    // "postCreateCommand": "uname -a",
+    // "postCreateCommand": "bash ./.devcontainer/postCreateCommandScript.sh",
+    // "postCreateCommand": "bash -c 'echo $(date +%Y-%m-%d_%H:%I:%S)'",
+    "postCreateCommand": "bash -c 'bash ./.devcontainer/postCreateCommandScript.sh'",
+
+    // Uncomment to use Docker from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
+    "mounts": [
+        // "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+        // "source=.devcontainer/bash_history,target=/root/.bash_history,type=bind",
+        // "source=.devcontainer/zsh_history,target=/root/.zsh_history,type=bind"
+    ],
+
+    // Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+    // "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+
+    // Comment out to connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
+    "remoteUser": "root",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+				"usernamehw.do-not-copy-empty",
+				"ebicochineal.select-highlight-cochineal-color",
+				"sleistner.vscode-fileutils",
+				"EditorConfig.EditorConfig",
+				"austenc.laravel-blade-spacer",
+				"amiralizadeh9480.laravel-extra-intellisense",
+				"msamgan.laravel-pint-vscode",
+				"open-southeners.laravel-pint",
+				"raullg97.laravel-pint-linter",
+				"cjhowe7.laravel-blade",
+				"tiansin.vscode-laravel-assist",
+				"arbitraer.laravel-blade-additional-snippets",
+				"ihunte.laravel-blade-wrapper",
+				"georgykurian.laravel-ide-helper",
+				"ahinkle.laravel-model-snippets",
+				"ctf0.laravel-goto-controller",
+				"ctf0.laravel-goto-config",
+				"absszero.vscode-laravel-goto",
+				"onecentlin.laravel-extension-pack",
+				"shufo.vscode-blade-formatter",
+				"alefragnani.project-manager",
+				"bmewburn.vscode-intelephense-client",
+				"editorconfig.editorconfig",
+				"ms-vscode-remote.remote-containers",
+				"ms-vscode-remote.remote-ssh"
+			]
+        }
+    },
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [
+        3000
+    ]
+}

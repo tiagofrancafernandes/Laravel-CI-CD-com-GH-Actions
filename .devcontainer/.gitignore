@@ -1,0 +1,5 @@
+*-ignore
+*ignore-*
+ignore.*
+*bash_history*
+*zsh_history*

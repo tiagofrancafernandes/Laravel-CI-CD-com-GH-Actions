@@ -1,0 +1,26 @@
+{
+    "recommendations": [
+        "austenc.laravel-blade-spacer",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "msamgan.laravel-pint-vscode",
+        "open-southeners.laravel-pint",
+        "raullg97.laravel-pint-linter",
+        "cjhowe7.laravel-blade",
+        "tiansin.vscode-laravel-assist",
+        "arbitraer.laravel-blade-additional-snippets",
+        "ihunte.laravel-blade-wrapper",
+        "georgykurian.laravel-ide-helper",
+        "ahinkle.laravel-model-snippets",
+        "ctf0.laravel-goto-controller",
+        "ctf0.laravel-goto-config",
+        "absszero.vscode-laravel-goto",
+        "onecentlin.laravel-extension-pack",
+        "shufo.vscode-blade-formatter",
+        "alefragnani.project-manager",
+        "bmewburn.vscode-intelephense-client",
+        "editorconfig.editorconfig",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode-remote.remote-ssh",
+        "ms-vscode-remote.remote-ssh-edit"
+    ]
+}
