@@ -52,18 +52,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Install dependencies
         run: composer install --no-dev --prefer-dist --no-interaction
-      - name: Deploy application via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_PRIV_KEY }}
-          # port: ${{ secrets.PORT }}
-          script: | #mudar depois para o caminho vir via ENV: https://github.com/appleboy/ssh-action/tree/master/#pass-environment-variable-to-shell-script
-            whoami
-            cd /var/www/projects/dev/tiagofranca/laravel-ci-cd
-            ls -al
-            git pull origin gh-actions
-            bash ./ci-cd/scripts/sail-run.sh php -v
+
+      - name: Get runner IP address
+        run: echo "Runner IP address is ${{ runner.ip }}"
+
+      - name: Account info
+        run: DO_ACCESS_TOKEN=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} bash ./doctl.sh account get
+
+      # - name: Deploy application via SSH
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SERVER_SSH_PRIV_KEY }}
+      #     # port: ${{ secrets.PORT }}
+      #     script: | #mudar depois para o caminho vir via ENV: https://github.com/appleboy/ssh-action/tree/master/#pass-environment-variable-to-shell-script
+      #       whoami
+      #       cd /var/www/projects/dev/tiagofranca/laravel-ci-cd
+      #       ls -al
+      #       git pull origin gh-actions
+      #       bash ./ci-cd/scripts/sail-run.sh php -v
