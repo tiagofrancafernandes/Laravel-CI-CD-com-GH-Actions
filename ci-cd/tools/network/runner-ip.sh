@@ -13,7 +13,7 @@ getip() {
     if command_exists wget; then
         echo $(wget -q checkip.amazonaws.com -O -)
     elif command_exists curl; then
-        curl -q checkip.amazonaws.com
+        echo $(curl -q checkip.amazonaws.com)
     else
         echo "Please install curl or wget"
         exit 1
