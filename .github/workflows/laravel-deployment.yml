@@ -72,7 +72,11 @@ jobs:
 
       - name: Deploy application via SSH
         uses: appleboy/ssh-action@v0.1.10
+        env:
+          TEMP_BRANCH: "tmp-${{ github.ref_name }}"
+          BRANCH_NAME: ${{ github.ref_name }}
         with:
+          envs: TEMP_BRANCH,BRANCH_NAME
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
@@ -82,18 +86,20 @@ jobs:
             whoami
             cd /var/www/projects/dev/tiagofranca/laravel-ci-cd
             docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html laravelsail/php82-composer:latest php -v
-            echo -e "${{ github.ref }}"
+            echo -e "${BRANCH_NAME}"
             echo -e "${{ vars.PROJECT_PATH_ON_SERVER }}"
             git clean -fd
             git checkout .
             git restore --staged .
             git restore .
             git checkout .
-            git checkout -b $(echo "tmp-${{ github.ref_name }}" | md5sum)
-            git branch -D ${{ github.ref_name }} > /dev/null 2>&1;
+            export TEMP_BRANCH_MD5=$(echo "${TEMP_BRANCH}" | md5sum)
+            echo ${TEMP_BRANCH_MD5}
+            git checkout -b ${TEMP_BRANCH_MD5}
+            git branch -D ${BRANCH_NAME} > /dev/null 2>&1;
             git fetch origin
-            git checkout ${{ github.ref_name }} -f
-            git branch -D $(echo "tmp-${{ github.ref_name }}" | md5sum) > /dev/null 2>&1 || $(echo "tmp-${{ github.ref_name }}" | md5sum)
+            git checkout  -f
+            git branch -D $(echo ${TEMP_BRANCH_MD5} | md5sum) > /dev/null 2>&1 || echo ${TEMP_BRANCH_MD5}
 
       - name: Remove runner IP on droplet firewall rules
         env:
