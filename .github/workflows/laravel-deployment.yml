@@ -85,7 +85,7 @@ jobs:
           script: | #mudar depois para o caminho vir via ENV: https://github.com/appleboy/ssh-action/tree/master/#pass-environment-variable-to-shell-script
             whoami
             cd /var/www/projects/dev/tiagofranca/laravel-ci-cd
-            docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html laravelsail/php82-composer:latest php -v
+            bash ./ci-cd/scripts/sail-noit-run.sh php -v
             echo -e "${BRANCH_NAME}"
             echo -e "${{ vars.PROJECT_PATH_ON_SERVER }}"
             git clean -fd
@@ -99,7 +99,8 @@ jobs:
             git branch -D ${BRANCH_NAME} > /dev/null 2>&1;
             git fetch origin
             git checkout  -f
-            git branch -D ${TEMP_BRANCH_MD5} > /dev/null 2>&1 || echo ${TEMP_BRANCH_MD5}
+            git branch -D ${TEMP_BRANCH_MD5}
+            echo ${TEMP_BRANCH_MD5}
 
       - name: Remove runner IP on droplet firewall rules
         env:
