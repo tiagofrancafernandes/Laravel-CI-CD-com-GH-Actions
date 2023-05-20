@@ -93,7 +93,7 @@ jobs:
             git restore --staged .
             git restore .
             git checkout .
-            export TEMP_BRANCH_MD5=$(echo "${TEMP_BRANCH}" | md5sum)
+            export TEMP_BRANCH_MD5=$(echo "${TEMP_BRANCH}"|md5sum|head -n 1|awk '{print $1}')
             echo ${TEMP_BRANCH_MD5}
             git checkout -b ${TEMP_BRANCH_MD5}
             git branch -D ${BRANCH_NAME} > /dev/null 2>&1;
