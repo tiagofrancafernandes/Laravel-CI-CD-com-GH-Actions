@@ -68,17 +68,32 @@ jobs:
         env:
           DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
-        run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh add
+        run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh add; sleep 2
 
       - name: Deploy application via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_PRIV_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           port: 22
           script_stop: true
-          script: whoami
+          script: | #mudar depois para o caminho vir via ENV: https://github.com/appleboy/ssh-action/tree/master/#pass-environment-variable-to-shell-script
+            whoami
+            cd /var/www/projects/dev/tiagofranca/laravel-ci-cd
+            docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html laravelsail/php82-composer:latest php -v
+            echo -e "${{ github.ref }}"
+            echo -e "${{ vars.PROJECT_PATH_ON_SERVER }}"
+            git clean -fd
+            git checkout .
+            git restore --staged .
+            git restore .
+            git checkout .
+            git checkout -b $(echo "tmp-${{ github.ref_name }}" | md5sum)
+            git branch -D ${{ github.ref_name }} > /dev/null 2>&1;
+            git fetch origin
+            git checkout ${{ github.ref_name }} -f
+            git branch -D $(echo "tmp-${{ github.ref_name }}" | md5sum) > /dev/null 2>&1 || $(echo "tmp-${{ github.ref_name }}" | md5sum)
 
       - name: Remove runner IP on droplet firewall rules
         env:
@@ -86,7 +101,8 @@ jobs:
           DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
         run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh remove
 
-      - name: Try deploy application via SSH (need to fail)
+      - name: Try deploy application via SSH (expect error)
+        continue-on-error: true
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -95,9 +111,3 @@ jobs:
           port: 22
           script_stop: true
           script: whoami
-      #     script: | #mudar depois para o caminho vir via ENV: https://github.com/appleboy/ssh-action/tree/master/#pass-environment-variable-to-shell-script
-      #       whoami
-      #       cd /var/www/projects/dev/tiagofranca/laravel-ci-cd
-      #       ls -al
-      #       git pull origin gh-actions
-      #       bash ./ci-cd/scripts/sail-run.sh php -v
