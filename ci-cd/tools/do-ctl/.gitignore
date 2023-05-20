@@ -1,4 +1,4 @@
 *
 !.gitignore
 !doctl.sh
-!add-current-ip-to-fw.sh
+!fw-inbound-rules-handler.sh
