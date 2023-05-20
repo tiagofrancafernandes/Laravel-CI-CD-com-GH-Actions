@@ -99,7 +99,7 @@ jobs:
             git branch -D ${BRANCH_NAME} > /dev/null 2>&1;
             git fetch origin
             git checkout  -f
-            git branch -D $(echo ${TEMP_BRANCH_MD5} | md5sum) > /dev/null 2>&1 || echo ${TEMP_BRANCH_MD5}
+            git branch -D ${TEMP_BRANCH_MD5} > /dev/null 2>&1 || echo ${TEMP_BRANCH_MD5}
 
       - name: Remove runner IP on droplet firewall rules
         env:
