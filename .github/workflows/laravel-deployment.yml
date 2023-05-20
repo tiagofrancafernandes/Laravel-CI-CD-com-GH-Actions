@@ -75,8 +75,9 @@ jobs:
         env:
           TEMP_BRANCH: "tmp-${{ github.ref_name }}"
           BRANCH_NAME: ${{ github.ref_name }}
+          PROJECT_PATH_ON_SERVER: ${{ vars.PROJECT_PATH_ON_SERVER }}
         with:
-          envs: TEMP_BRANCH,BRANCH_NAME
+          envs: TEMP_BRANCH,BRANCH_NAME,PROJECT_PATH_ON_SERVER
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
@@ -84,10 +85,9 @@ jobs:
           script_stop: true
           script: | #mudar depois para o caminho vir via ENV: https://github.com/appleboy/ssh-action/tree/master/#pass-environment-variable-to-shell-script
             whoami
-            cd /var/www/projects/dev/tiagofranca/laravel-ci-cd
-            bash ./ci-cd/scripts/sail-noit-run.sh php -v
+            cd "${PROJECT_PATH_ON_SERVER}"
             echo -e "${BRANCH_NAME}"
-            echo -e "${{ vars.PROJECT_PATH_ON_SERVER }}"
+            echo -e "${PROJECT_PATH_ON_SERVER}"
             git clean -fd
             git checkout .
             git restore --staged .
@@ -98,7 +98,8 @@ jobs:
             git checkout -b ${TEMP_BRANCH_MD5}
             git branch -D ${BRANCH_NAME} > /dev/null 2>&1;
             git fetch origin
-            git checkout  -f
+            git checkout ${BRANCH_NAME} -f
+            bash "${PROJECT_PATH_ON_SERVER}/ci-cd/scripts/sail-noit-run.sh" php -v
             git branch -D ${TEMP_BRANCH_MD5}
             echo ${TEMP_BRANCH_MD5}
 
