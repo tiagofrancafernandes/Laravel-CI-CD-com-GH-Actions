@@ -13,17 +13,28 @@ jobs:
       fail-fast: true ## Para no primeiro erro?!
 
     steps:
+    - uses: actions/checkout@v3
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
+      env:
+        fail-fast: true
 
-    - uses: actions/checkout@v3
+    - name: Get PHP version
+      run: php -v
+
+    - name: Run PHP code
+      shell: php {0}
+      run: |
+        <?php
+        $welcome = "Hello, world";
+        echo $welcome;
+
+    - name: Install dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.gh-actions', '.env');"
-
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     - name: Generate key
       run: php artisan key:generate
@@ -51,12 +62,6 @@ jobs:
       fail-fast: true
     needs: test
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: composer install --no-dev --prefer-dist --no-interaction
-
       - name: Get runner IP address
         run: bash ./ci-cd/tools/network/runner-ip.sh
 
