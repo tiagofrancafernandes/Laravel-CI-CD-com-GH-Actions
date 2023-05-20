@@ -13,9 +13,10 @@ jobs:
       fail-fast: true ## Para no primeiro erro?!
 
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+    - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
+
     - uses: actions/checkout@v3
 
     - name: Copy .env
@@ -48,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-    # needs: test
+    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
