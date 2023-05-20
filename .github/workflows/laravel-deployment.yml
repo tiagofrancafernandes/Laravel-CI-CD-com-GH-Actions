@@ -71,12 +71,13 @@ jobs:
         run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh add
 
       - name: Deploy application via SSH
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SERVER_SSH_PRIV_KEY }}
-          # port: ${{ secrets.PORT }}
+          port: 22
+          script_stop: true
           script: whoami
 
       - name: Remove runner IP on droplet firewall rules
@@ -86,12 +87,13 @@ jobs:
         run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh remove
 
       - name: Try deploy application via SSH (need to fail)
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SERVER_SSH_PRIV_KEY }}
-          # port: ${{ secrets.PORT }}
+          port: 22
+          script_stop: true
           script: whoami
       #     script: | #mudar depois para o caminho vir via ENV: https://github.com/appleboy/ssh-action/tree/master/#pass-environment-variable-to-shell-script
       #       whoami
