@@ -57,7 +57,7 @@ jobs:
         run: composer install --no-dev --prefer-dist --no-interaction
 
       - name: Get runner IP address
-        run: echo "Runner IP address is ${{ runner.ip }}"
+        run: bash ./ci-cd/tools/network/runner-ip.sh
 
       - name: Account info
         env:
