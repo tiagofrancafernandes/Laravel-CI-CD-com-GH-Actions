@@ -83,7 +83,8 @@
 				"bmewburn.vscode-intelephense-client",
 				"editorconfig.editorconfig",
 				"ms-vscode-remote.remote-containers",
-				"ms-vscode-remote.remote-ssh"
+				"ms-vscode-remote.remote-ssh",
+				"github.vscode-github-actions"
 			]
         }
     },
