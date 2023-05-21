@@ -64,9 +64,10 @@ jobs:
     steps:
       - name: Add runner IP on droplet firewall rules
         env:
+          PROJECT_PATH_ON_SERVER: ${{ vars.PROJECT_PATH_ON_SERVER }}
           DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
-        run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh add; sleep 2
+        run: bash "${PROJECT_PATH_ON_SERVER}/ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh"  add
 
         # - name: Account info # Exemplo de ação que pode ser executada com o DOCTL
         #   env:
@@ -114,9 +115,10 @@ jobs:
 
       - name: Remove runner IP on droplet firewall rules
         env:
+          PROJECT_PATH_ON_SERVER: ${{ vars.PROJECT_PATH_ON_SERVER }}
           DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
-        run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh remove
+        run: bash "${PROJECT_PATH_ON_SERVER}/ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh" remove
 
       - name: Try deploy application via SSH (expect error)
         continue-on-error: true
