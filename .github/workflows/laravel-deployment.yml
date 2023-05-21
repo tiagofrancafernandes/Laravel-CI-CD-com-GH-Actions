@@ -5,6 +5,9 @@ on:
     branches:
       - gh-actions
 
+env:
+  PROJECT_PATH_ON_SERVER: ${{ vars.PROJECT_PATH_ON_SERVER }}
+
 jobs:
   # test-code:
   #   runs-on: ubuntu-latest
@@ -66,7 +69,7 @@ jobs:
         env:
           TEMP_BRANCH: "tmp-${{ github.ref_name }}"
           BRANCH_NAME: ${{ github.ref_name }}
-          PROJECT_PATH_ON_SERVER: ${{ env.PROJECT_PATH_ON_SERVER }}
+          PROJECT_PATH_ON_SERVER: ${{ vars.PROJECT_PATH_ON_SERVER }}
         with:
           envs: TEMP_BRANCH,BRANCH_NAME,PROJECT_PATH_ON_SERVER
           host: ${{ secrets.SSH_HOST }}
@@ -77,7 +80,7 @@ jobs:
 
       - name: Add runner IP on droplet firewall rules
         env:
-          PROJECT_PATH_ON_SERVER: ${{ env.PROJECT_PATH_ON_SERVER }}
+          PROJECT_PATH_ON_SERVER: ${{ vars.PROJECT_PATH_ON_SERVER }}
           DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
         run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh add
@@ -118,7 +121,7 @@ jobs:
 
       - name: Remove runner IP on droplet firewall rules
         env:
-          PROJECT_PATH_ON_SERVER: ${{ env.PROJECT_PATH_ON_SERVER }}
+          PROJECT_PATH_ON_SERVER: ${{ vars.PROJECT_PATH_ON_SERVER }}
           DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
         run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh remove
