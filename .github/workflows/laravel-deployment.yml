@@ -5,10 +5,10 @@ on:
     branches:
       - master
       - staging
-      - gh-actions
 
 env:
-  PROJECT_PATH_ON_SERVER: ${{vars.PROJECT_PATH_ON_SERVER}}
+  ## /path/base/[branch_name]
+  PROJECT_PATH_ON_SERVER: "${{vars.PROJECT_PATH_ON_SERVER}}/${{github.ref_name}}"
   DO_ACCESS_TOKEN: ${{secrets.DIGITALOCEAN_ACCESS_TOKEN}}
   DO_FIREWALL_ID: ${{secrets.DO_FIREWALL_ID}}
   TEMP_BRANCH: "tmp-${GITHUB_RUN_ID}"
