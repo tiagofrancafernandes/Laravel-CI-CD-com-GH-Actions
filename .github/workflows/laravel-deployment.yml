@@ -3,6 +3,8 @@ name: Deploy Laravel Application via SSH
 on:
   push:
     branches:
+      - master
+      - staging
       - gh-actions
 
 env:
