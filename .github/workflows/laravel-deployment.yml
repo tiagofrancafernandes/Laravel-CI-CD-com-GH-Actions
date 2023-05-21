@@ -6,8 +6,7 @@ on:
       - gh-actions
 
 jobs:
-  test:
-
+  test-code:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true ## Para no primeiro erro?!
@@ -60,10 +59,21 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-    needs: test
+    needs: test-code
     steps:
       - uses: actions/checkout@v3
       - uses: appleboy/ssh-action@v0.1.10
+        env:
+          TEMP_BRANCH: "tmp-${{ github.ref_name }}"
+          BRANCH_NAME: ${{ github.ref_name }}
+          PROJECT_PATH_ON_SERVER: ${{ env.PROJECT_PATH_ON_SERVER }}
+        with:
+          envs: TEMP_BRANCH,BRANCH_NAME,PROJECT_PATH_ON_SERVER
+          host: ${{ github.secret_source.SSH_HOST }}
+          username: ${{ github.secret_source.SSH_USERNAME }}
+          key: ${{ github.secret_source.SSH_KEY }}
+          port: 22
+          script_stop: true
 
       - name: Add runner IP on droplet firewall rules
         env:
@@ -79,17 +89,7 @@ jobs:
 
       - name: Deploy application via SSH
         uses: appleboy/ssh-action@v0.1.10
-        env:
-          TEMP_BRANCH: "tmp-${{ github.ref_name }}"
-          BRANCH_NAME: ${{ github.ref_name }}
-          PROJECT_PATH_ON_SERVER: ${{ env.PROJECT_PATH_ON_SERVER }}
         with:
-          envs: TEMP_BRANCH,BRANCH_NAME,PROJECT_PATH_ON_SERVER
-          host: ${{ github.secret_source.SSH_HOST }}
-          username: ${{ github.secret_source.SSH_USERNAME }}
-          key: ${{ github.secret_source.SSH_KEY }}
-          port: 22
-          script_stop: true
           script: |
             whoami
             cd "${PROJECT_PATH_ON_SERVER}"
@@ -127,9 +127,4 @@ jobs:
         continue-on-error: true
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ github.secret_source.SSH_HOST }}
-          username: ${{ github.secret_source.SSH_USERNAME }}
-          key: ${{ github.secret_source.SERVER_SSH_PRIV_KEY }}
-          port: 22
-          script_stop: true
           script: whoami
