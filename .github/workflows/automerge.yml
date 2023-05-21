@@ -26,4 +26,9 @@ jobs:
         uses: "pascalgn/automerge-action@v0.15.6"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_REQUIRED_APPROVALS: 0
+          MERGE_LABELS: "automerge,!WIP,!work in progress"
+          MERGE_REMOVE_LABELS: "automerge"
+          MERGE_FORKS: "false"
+          MERGE_RETRIES: "3"
+          MERGE_RETRY_SLEEP: "10000"
+          MERGE_REQUIRED_APPROVALS: "0"
