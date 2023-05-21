@@ -69,22 +69,22 @@ jobs:
           PROJECT_PATH_ON_SERVER: ${{ env.PROJECT_PATH_ON_SERVER }}
         with:
           envs: TEMP_BRANCH,BRANCH_NAME,PROJECT_PATH_ON_SERVER
-          host: ${{ github.secret_source.SSH_HOST }}
-          username: ${{ github.secret_source.SSH_USERNAME }}
-          key: ${{ github.secret_source.SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
           port: 22
           script_stop: true
 
       - name: Add runner IP on droplet firewall rules
         env:
           PROJECT_PATH_ON_SERVER: ${{ env.PROJECT_PATH_ON_SERVER }}
-          DO_ACCESS_TOKEN: ${{ github.secret_source.DIGITALOCEAN_ACCESS_TOKEN }}
-          DO_FIREWALL_ID: ${{ github.secret_source.DO_FIREWALL_ID }}
+          DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
         run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh add
 
         # - name: Account info # Exemplo de ação que pode ser executada com o DOCTL
         #   env:
-        #     DO_ACCESS_TOKEN: ${{ github.secret_source.DIGITALOCEAN_ACCESS_TOKEN }}
+        #     DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
         #   run: bash ./ci-cd/tools/do-ctl/doctl.sh account get
 
       - name: Deploy application via SSH
@@ -119,8 +119,8 @@ jobs:
       - name: Remove runner IP on droplet firewall rules
         env:
           PROJECT_PATH_ON_SERVER: ${{ env.PROJECT_PATH_ON_SERVER }}
-          DO_ACCESS_TOKEN: ${{ github.secret_source.DIGITALOCEAN_ACCESS_TOKEN }}
-          DO_FIREWALL_ID: ${{ github.secret_source.DO_FIREWALL_ID }}
+          DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
         run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh remove
 
       - name: Try deploy application via SSH (expect error)
