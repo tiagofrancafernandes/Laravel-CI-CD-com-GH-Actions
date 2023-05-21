@@ -62,19 +62,16 @@ jobs:
       fail-fast: true
     needs: test
     steps:
-      - name: Get runner IP address
-        run: bash ./ci-cd/tools/network/runner-ip.sh
-
-      # - name: Account info # Exemplo de ação que pode ser executada com o DOCTL
-      #   env:
-      #     DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      #   run: bash ./ci-cd/tools/do-ctl/doctl.sh account get
-
       - name: Add runner IP on droplet firewall rules
         env:
           DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
         run: bash ./ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh add; sleep 2
+
+        # - name: Account info # Exemplo de ação que pode ser executada com o DOCTL
+        #   env:
+        #     DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        #   run: bash ./ci-cd/tools/do-ctl/doctl.sh account get
 
       - name: Deploy application via SSH
         uses: appleboy/ssh-action@v0.1.10
