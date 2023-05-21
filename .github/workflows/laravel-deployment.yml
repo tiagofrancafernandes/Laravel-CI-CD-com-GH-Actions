@@ -76,7 +76,9 @@ jobs:
         #   run: bash ./ci-cd/tools/do-ctl/doctl.sh account get
 
       - name: Deploy application via SSH
-        uses: appleboy/ssh-action@v0.1.10
+        uses:
+          actions/checkout@v3
+          appleboy/ssh-action@v0.1.10
         env:
           TEMP_BRANCH: "tmp-${{ github.ref_name }}"
           BRANCH_NAME: ${{ github.ref_name }}
@@ -115,15 +117,20 @@ jobs:
             echo -e ""
 
       - name: Remove runner IP on droplet firewall rules
+        uses:
+          actions/checkout@v3
+          appleboy/ssh-action@v0.1.10
         env:
           PROJECT_PATH_ON_SERVER: ${{ vars.PROJECT_PATH_ON_SERVER }}
           DO_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
           DO_FIREWALL_ID: ${{ secrets.DO_FIREWALL_ID }}
-        run: bash "${PROJECT_PATH_ON_SERVER}/ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh" remove
+          script: bash "${PROJECT_PATH_ON_SERVER}/ci-cd/tools/do-ctl/fw-inbound-rules-handler.sh" remove
 
       - name: Try deploy application via SSH (expect error)
         continue-on-error: true
-        uses: appleboy/ssh-action@v0.1.10
+        uses:
+          actions/checkout@v3
+          appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
