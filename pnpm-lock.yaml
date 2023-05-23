@@ -7,8 +7,8 @@ dependencies:
 
 devDependencies:
   '@alpinejs/focus':
-    specifier: ^3.10.3
-    version: 3.10.3
+    specifier: ^3.12.1
+    version: 3.12.1
   '@tailwindcss/forms':
     specifier: ^0.5.3
     version: 0.5.3(tailwindcss@3.3.2)
@@ -25,7 +25,7 @@ devDependencies:
     specifier: ^0.7.7
     version: 0.7.7(vite@4.3.8)
   postcss:
-    specifier: ^8.4.14
+    specifier: ^8.4.23
     version: 8.4.23
   resolve-url-loader:
     specifier: ^5.0.0
@@ -50,8 +50,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /@alpinejs/focus@3.10.3:
-    resolution: {integrity: sha512-Q8hYP42Zdmj4VgrbKUmW2AAeXdQZdRU+NpHl2CRUgvBJTQ8UHTL50Q6ZCGY8P9BTnA+DSO+e8wRf7B4qGtak9g==}
+  /@alpinejs/focus@3.12.1:
+    resolution: {integrity: sha512-8LXkzY9yHqTqsB+aqdY1SL4fv+IbMtn2vEwGPw3YFio0+vfS+hGnZS1E4aDkm+JIUUtQvqRbV3cnK2WRZkVGnA==}
     dependencies:
       focus-trap: 6.9.4
     dev: true
@@ -344,12 +344,12 @@ packages:
   /@types/eslint-scope@3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
-      '@types/eslint': 8.37.0
+      '@types/eslint': 8.40.0
       '@types/estree': 1.0.1
     dev: true
 
-  /@types/eslint@8.37.0:
-    resolution: {integrity: sha512-Piet7dG2JBuDIfohBngQ3rCt7MgO9xCO4xIMKxBThCq5PNRB91IjlJ10eJVwfoNtvTErmxLzwBZ7rHZtbOMmFQ==}
+  /@types/eslint@8.40.0:
+    resolution: {integrity: sha512-nbq2mvc/tBrK9zQQuItvjJl++GTN5j06DaPtp3hZCpngmG6Q3xoyEmd0TwZI0gAy/G1X0zhGBbr2imsGFdFV0g==}
     dependencies:
       '@types/estree': 1.0.1
       '@types/json-schema': 7.0.11
@@ -601,7 +601,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001489
-      electron-to-chromium: 1.4.403
+      electron-to-chromium: 1.4.404
       node-releases: 2.0.11
       update-browserslist-db: 1.0.11(browserslist@4.21.5)
     dev: true
@@ -670,8 +670,8 @@ packages:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
     dev: true
 
-  /electron-to-chromium@1.4.403:
-    resolution: {integrity: sha512-evCMqXJWmbQHdlh307peXNguqVIMmcLGrQwXiR+Qc98js8jPDeT9rse1+EF2YRjWgueuzj1r4WWLAe4/U+xjMg==}
+  /electron-to-chromium@1.4.404:
+    resolution: {integrity: sha512-te57sWvQdpxmyd1GiswaodKdXdPgn9cN4ht8JlNa04QgtrfnUdWEo1261rY2vaC6TKaiHn0E7QerJWPKFCvMVw==}
     dev: true
 
   /emojis-list@3.0.0:
