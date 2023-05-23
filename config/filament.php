@@ -14,7 +14,6 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Filament Path
@@ -140,7 +139,6 @@ return [
         'path' => app_path('Filament/Widgets'),
         'register' => [
             Widgets\AccountWidget::class,
-            Widgets\FilamentInfoWidget::class,
         ],
     ],
 
@@ -169,7 +167,7 @@ return [
     |
     */
 
-    'dark_mode' => false,
+    'dark_mode' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -199,14 +197,12 @@ return [
     */
 
     'broadcasting' => [
-
         // 'echo' => [
         //     'broadcaster' => 'pusher',
         //     'key' => env('VITE_PUSHER_APP_KEY'),
         //     'cluster' => env('VITE_PUSHER_APP_CLUSTER'),
         //     'forceTLS' => true,
         // ],
-
     ],
 
     /*
@@ -237,7 +233,7 @@ return [
             'have_inline_labels' => false,
         ],
         'footer' => [
-            'should_show_logo' => true,
+            'should_show_logo' => false,
         ],
         'max_content_width' => null,
         'notifications' => [
@@ -245,7 +241,7 @@ return [
             'alignment' => 'right',
         ],
         'sidebar' => [
-            'is_collapsible_on_desktop' => false,
+            'is_collapsible_on_desktop' => true,
             'groups' => [
                 'are_collapsible' => true,
             ],
@@ -275,7 +271,8 @@ return [
     |
     */
 
-    'default_avatar_provider' => \Filament\AvatarProviders\UiAvatarsProvider::class,
+    // 'default_avatar_provider' => \Filament\AvatarProviders\UiAvatarsProvider::class,
+    'default_avatar_provider' => \App\Libs\TiagoF2\Filament\UiAvatarsProvider::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -330,5 +327,4 @@ return [
             MirrorConfigToSubpackages::class,
         ],
     ],
-
 ];
