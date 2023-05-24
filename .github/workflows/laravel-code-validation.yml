@@ -6,8 +6,6 @@ on:
       - master
 
   push:
-      branches:
-        - '*'
       branches-ignore:
         - 'WIP*'
 
