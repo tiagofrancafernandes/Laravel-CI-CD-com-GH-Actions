@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\QuestionApiController;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', fn (Request $request) => $request->user());
+
+Route::middleware([
+    'OrgIsRequired',
+])->prefix('_q')->name('api.question.')->group(function (?Router $router = null) {
+    Route::get('{questionId}', [QuestionApiController::class, 'index'])
+        ->name('show');
+});
