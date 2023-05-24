@@ -3,6 +3,11 @@ name: CI/CD Laravel - Code validation on PRs
 on:
   pull_request:
     branches: [ "master" ]
+  push:
+      branches:
+        - '*'
+      branches-ignore:
+        - 'WIP*'
 
 jobs:
   laravel-tests:
