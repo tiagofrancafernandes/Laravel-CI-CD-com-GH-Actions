@@ -7,6 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * App\Models\Question
+ *
+ * @property int $id
+ * @property string|null $default_title
+ * @property AsCollection|null $title_langs
+ * @property AsCollection|null $questions
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $organization_id
+ * @property-read mixed $title
+ * @method static \Database\Factories\QuestionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Question newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Question query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereDefaultTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereOrganizationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereTitleLangs($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Question extends Model
 {
     use HasFactory;

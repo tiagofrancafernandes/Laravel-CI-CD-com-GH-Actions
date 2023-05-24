@@ -45,6 +45,8 @@ use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorRecoveryCodes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -84,6 +86,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the organization that owns the Question
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class, 'organization_id', 'id');
+    }
 
     /**
      * function userNumbers
