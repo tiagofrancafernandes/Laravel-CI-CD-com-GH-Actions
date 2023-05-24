@@ -1,4 +1,4 @@
-name: CI/CD Laravel - Code validation on PRs
+name: Code validation on pushs and PRs
 
 on:
   pull_request:
