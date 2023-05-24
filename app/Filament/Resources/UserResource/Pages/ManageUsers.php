@@ -16,4 +16,11 @@ class ManageUsers extends ManageRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            \App\Filament\Resources\UserResource\Widgets\UserNumbersWidget::class,
+        ];
+    }
 }

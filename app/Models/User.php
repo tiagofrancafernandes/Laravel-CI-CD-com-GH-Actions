@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 
 /**
@@ -83,4 +84,54 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * function userNumbers
+     *
+     * @param array $rawQueryToAppend
+     * @param int $ttl
+     * @param bool $clearCache
+     *
+     * @return User
+     */
+    public static function userNumbers(
+        array $rawQueryToAppend = [],
+        int $ttl = 120,
+        bool $clearCache = false
+    ): User {
+        $rawQueryToAppend = \array_filter(\array_values($rawQueryToAppend), 'is_string');
+
+        $query = [
+            'count(*) as total',
+            \sprintf(
+                'SUM(CASE WHEN email_verified_at is null THEN 1 ELSE 0 END) as %s',
+                'not_verified',
+            ),
+            \sprintf(
+                'SUM(CASE WHEN email_verified_at is null THEN 0 ELSE 1 END) as %s',
+                'total_verified',
+            ),
+            ...$rawQueryToAppend,
+        ];
+
+        // Campos NÃO nulos
+        // select SUM(CASE WHEN email_verified_at is null THEN 0 ELSE 1 END) as not_verified from users;
+
+        // Campos nulos
+        // SUM(CASE WHEN email_verified_at is null THEN 1 ELSE 0 END) as not_verified
+
+        $cacheKey = serialize($query);
+
+        if ($clearCache) {
+            Cache::forget($cacheKey);
+        }
+
+        return Cache::remember(
+            $cacheKey,
+            $ttl,
+            fn () => User::select(
+                \Illuminate\Support\Facades\DB::raw(\implode(',', $query))
+            )->first()
+        );
+    }
 }
