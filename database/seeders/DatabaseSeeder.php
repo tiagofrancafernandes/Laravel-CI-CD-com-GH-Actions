@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@mail.com',
                 'password' => \Illuminate\Support\Facades\Hash::make('power@123'),
                 'email_verified_at' => now(),
+                'is_admin' => \true,
+                'organization_id' => null,
             ]
         );
     }

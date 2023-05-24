@@ -65,6 +65,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin', // Ideal aqui seria aplicar ACL usando o gate e as policies
+        'organization_id', // Ideal aqui seria relacionamento polimorfico (um usuario pode fazer parte de N orgs)
     ];
 
     /**
@@ -85,6 +87,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_admin' => 'boolean',
     ];
 
     /**

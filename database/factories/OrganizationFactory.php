@@ -21,7 +21,7 @@ class OrganizationFactory extends Factory
         return [
             'name' => \fake()->company(),
             'org_ref' => fn ($attr) => Str::slug($attr['name']),
-            'owner_id' => User::factory(),
+            'owner_id' => User::inRandomOrder()->first(),
         ];
     }
 }
