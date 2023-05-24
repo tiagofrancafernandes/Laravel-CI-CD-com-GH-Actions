@@ -34,6 +34,16 @@ class Question extends Model
     }
 
     /**
+     * Get the organization that owns the Question
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class, 'organization_id', 'id');
+    }
+
+    /**
      * function stats
      *
      * @param array $rawQueryToAppend

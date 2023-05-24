@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -43,6 +44,7 @@ class QuestionFactory extends Factory
                     'name' => 'question_two',
                 ],
             ],
+            'organization_id' => Organization::factory(),
         ];
     }
 }
