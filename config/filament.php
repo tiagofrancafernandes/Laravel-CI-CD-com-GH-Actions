@@ -139,7 +139,9 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
-            Widgets\AccountWidget::class,
+            // Widgets\AccountWidget::class,
+            \App\Filament\Resources\OrganizationResource\Widgets\OrganizationInfoWidget::class,
+            \App\Filament\Resources\OrganizationResource\Widgets\AccountWidget::class,
             \App\Filament\Resources\UserResource\Widgets\QuestionNumbersWidget::class,
         ],
     ],
@@ -327,6 +329,7 @@ return [
             SubstituteBindings::class,
             DispatchServingFilamentEvent::class,
             MirrorConfigToSubpackages::class,
+            \App\Http\Middleware\OrganizationIsRequired::class,
         ],
     ],
 ];

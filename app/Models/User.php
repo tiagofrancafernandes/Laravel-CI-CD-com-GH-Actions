@@ -6,6 +6,7 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
@@ -47,6 +48,12 @@ use JeffGreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property int|null $organization_id
+ * @property bool|null $is_admin
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereOrganizationId($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -100,6 +107,11 @@ class User extends Authenticatable
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
     }
 
+    public function cachedOrganization(): ?Organization
+    {
+        return Organization::getByIdAndCache($this->organization_id);
+    }
+
     /**
      * function userNumbers
      *
@@ -147,6 +159,19 @@ class User extends Authenticatable
             fn () => User::select(
                 \Illuminate\Support\Facades\DB::raw(\implode(',', $query))
             )->first()
+        );
+    }
+
+    public function getOrgRefAttribute()
+    {
+        if (!$this?->organization_id) {
+            return null;
+        }
+
+        return Cache::remember(
+            "org-ref-id-{$this?->organization_id}",
+            300,
+            fn () => Organization::getByIdAndCache($this?->organization_id)?->org_ref
         );
     }
 }

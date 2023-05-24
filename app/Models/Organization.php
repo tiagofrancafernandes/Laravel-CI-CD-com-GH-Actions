@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,5 +47,37 @@ class Organization extends Model
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id', 'id');
+    }
+
+    /**
+     * function getByIdAndCache
+     *
+     * @param ?int $organizationId
+     *
+     * @return ?object
+     */
+    public static function getByIdAndCache(?int $organizationId): ?object
+    {
+        return Cache::remember(
+            "org-getByIdAndCache-{$organizationId}",
+            300,
+            fn () => Organization::whereId($organizationId)->first()
+        );
+    }
+
+    /**
+     * function getByOrgRefAndCache
+     *
+     * @param ?string $orgRef
+     *
+     * @return ?object
+     */
+    public static function getByOrgRefAndCache(?string $orgRef): ?object
+    {
+        return Cache::remember(
+            "org-getByOrgRefAndCache-{$orgRef}",
+            300,
+            fn () => Organization::whereOrgRef($orgRef)->first()
+        );
     }
 }
