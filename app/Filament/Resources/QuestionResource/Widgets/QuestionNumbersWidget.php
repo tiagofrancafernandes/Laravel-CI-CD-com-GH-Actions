@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\Widgets;
+namespace App\Filament\Resources\QuestionResource\Widgets;
 
 use App\Helpers\HtmlableMaker;
 use App\Models\Question;

@@ -68,12 +68,16 @@ class Organization extends Model
     /**
      * function getByOrgRefAndCache
      *
-     * @param ?string $orgRef
+     * @param mixed $orgRef
      *
      * @return ?object
      */
-    public static function getByOrgRefAndCache(?string $orgRef): ?object
+    public static function getByOrgRefAndCache(mixed $orgRef = \null): ?object
     {
+        if (!$orgRef || !\is_string($orgRef) || !\strlen(trim($orgRef))) {
+            return null;
+        }
+
         return Cache::remember(
             "org-getByOrgRefAndCache-{$orgRef}",
             300,

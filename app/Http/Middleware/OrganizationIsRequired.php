@@ -78,9 +78,8 @@ class OrganizationIsRequired
         }
 
         \abort(
-            401,
-            // __('Not found'),
-            __('Fail on retrieving organization data. If the error persists, please contact support.')
+            404,
+            __('Not found'),
         );
     }
 

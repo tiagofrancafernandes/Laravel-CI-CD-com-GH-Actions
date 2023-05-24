@@ -142,7 +142,7 @@ return [
             // Widgets\AccountWidget::class,
             \App\Filament\Resources\OrganizationResource\Widgets\OrganizationInfoWidget::class,
             \App\Filament\Resources\OrganizationResource\Widgets\AccountWidget::class,
-            \App\Filament\Resources\UserResource\Widgets\QuestionNumbersWidget::class,
+            \App\Filament\Resources\QuestionResource\Widgets\QuestionNumbersWidget::class,
         ],
     ],
 

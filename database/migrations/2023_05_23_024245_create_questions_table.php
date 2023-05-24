@@ -11,7 +11,7 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->unique()->index();
             $table->string('default_title')->nullable();
             $table->json('title_langs')->nullable();
             $table->json('questions')->nullable();
