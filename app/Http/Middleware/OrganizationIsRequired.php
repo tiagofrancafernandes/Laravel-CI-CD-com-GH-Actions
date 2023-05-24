@@ -107,6 +107,17 @@ class OrganizationIsRequired
             // '*create', // ends with
             // 'create*', // starts with
             // '*create*', // contains
+
+            '*livewire*',
+            '*_debugbar*',
+            '*email/verify*',
+            '*login',
+            '*logout',
+            '*password/confirm',
+            '*password/reset*',
+            '*register',
+            '*sanctum/csrf-cookie*',
+            '*must-be-confirmed*',
         ];
     }
 }
